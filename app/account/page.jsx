@@ -1,11 +1,9 @@
-'use strict';
-
+export const metadata = {
+  title: "Account",
+};
 
 export default function Page() {
-
-	return (
-
-		<h1>Hello Next Account!!</h1>
-		
-	)
+  return (
+    <h2 className="mb-7 text-2xl font-semibold text-accent-400">Hello Mark</h2>
+  );
 }
