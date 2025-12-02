@@ -1,13 +1,66 @@
 "use client";
 
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+
 function Filter() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const activeFilter = searchParams.get("capacity") ?? "all";
+
+  function handleFilter(filter) {
+    const params = new URLSearchParams(searchParams);
+
+    params.set("capacity", filter);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }
+
   return (
     <div className="flex border border-primary-800">
-      <button className="px-5 py-2 hover:bg-primary-700">All Cabins</button>
-      <button className="px-5 py-2 hover:bg-primary-700">1 &mdash; 3</button>
-      <button className="px-5 py-2 hover:bg-primary-700">4 &mdash; 7</button>
-      <button className="px-5 py-2 hover:bg-primary-700">8 or more</button>
+      <Button
+        filter="all"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
+      >
+        All Cabins
+      </Button>
+
+      <Button
+        filter="small"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
+      >
+        1 &mdash; 3
+      </Button>
+
+      <Button
+        filter="medium"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
+      >
+        4 &mdash; 7
+      </Button>
+
+      <Button
+        filter="large"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
+      >
+        8 and Over
+      </Button>
     </div>
+  );
+}
+
+function Button({ filter, activeFilter, handleFilter, children }) {
+  return (
+    <button
+      onClick={() => handleFilter(filter)}
+      className={`px-5 py-2 hover:bg-primary-700 ${activeFilter === filter ? "bg-primary-700 text-primary-50" : ""}`}
+    >
+      {children}
+    </button>
   );
 }
 
